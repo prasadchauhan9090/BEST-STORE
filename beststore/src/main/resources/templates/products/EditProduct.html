@@ -4,110 +4,166 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Edit Product</title>
+
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .card-box {
+            background: #fff;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 750px;
+        }
+
+        h2 {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
+        }
+
+        .btn-update {
+            background: linear-gradient(45deg, #36d1dc, #5b86e5);
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 25px;
+            padding: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-update:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-cancel {
+            border-radius: 25px;
+        }
+
+        .form-label {
+            font-weight: 600;
+        }
+
+        .product-img {
+            border-radius: 10px;
+            border: 2px solid #eee;
+            padding: 5px;
+            transition: 0.3s;
+        }
+
+        .product-img:hover {
+            transform: scale(1.05);
+        }
+
+        .error-text {
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 mx-auto rounded border p-4 m-4">
 
-            <h2 class="text-center mb-5">Edit Product</h2>
+<div class="card-box">
 
-            <!-- ✅ CORRECT FORM -->
-            <form method="post"
-                  enctype="multipart/form-data"
-                  th:action="@{/products/edit/{id}(id=${product.id})}"
-                  th:object="${productDto}">
+    <h2 class="text-center mb-4">✏️ Edit Product</h2>
 
-                <!-- ID -->
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">ID</label>
-                    <div class="col-sm-8">
-                        <input readonly class="form-control-plaintext" th:value="${product.id}">
-                    </div>
-                </div>
+    <form method="post"
+          enctype="multipart/form-data"
+          th:action="@{/products/edit/{id}(id=${product.id})}"
+          th:object="${productDto}">
 
-                <!-- Name -->
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Name</label>
-                    <div class="col-sm-8">
-                        <input class="form-control" th:field="*{name}">
-                        <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
-                    </div>
-                </div>
-
-                <!-- Brand -->
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Brand</label>
-                    <div class="col-sm-8">
-                        <input class="form-control" th:field="*{brand}">
-                        <p class="text-danger" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></p>
-                    </div>
-                </div>
-
-                <!-- Category -->
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Category</label>
-                    <div class="col-sm-8">
-                        <select class="form-select" th:field="*{category}">
-                            <option value="">-- Select Category --</option>
-                            <option value="Phones">Phones</option>
-                            <option value="Computers">Computers</option>
-                            <option value="Accessories">Accessories</option>
-                        </select>
-                        <p class="text-danger" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></p>
-                    </div>
-                </div>
-
-                <!-- Price -->
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Price</label>
-                    <div class="col-sm-8">
-                        <input class="form-control" type="number" th:field="*{price}">
-                        <p class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
-                    </div>
-                </div>
-
-                <!-- Description -->
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Description</label>
-                    <div class="col-sm-8">
-                        <textarea class="form-control" th:field="*{description}"></textarea>
-                    </div>
-                </div>
-
-                <!-- Image -->
-                <div class="row mb-3">
-                    <div class="offset-sm-4 col-sm-8">
-                        <img th:src="@{'/images/' + ${product.imageFileName}}"
-                             width="120">
-                    </div>
-                </div>
-
-                <!-- Upload -->
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">New Image</label>
-                    <div class="col-sm-8">
-                        <input type="file" class="form-control" th:field="*{imageFile}">
-                    </div>
-                </div>
-
-                <!-- Buttons -->
-                <div class="row">
-                    <div class="offset-sm-4 col-sm-4 d-grid">
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </div>
-
-                    <div class="col-sm-4 d-grid">
-                        <a class="btn btn-secondary" th:href="@{/products}">Cancel</a>
-                    </div>
-                </div>
-
-            </form>
-
+        <!-- ID -->
+        <div class="mb-3">
+            <label class="form-label">Product ID</label>
+            <input readonly class="form-control" th:value="${product.id}">
         </div>
-    </div>
+
+        <!-- Name -->
+        <div class="mb-3">
+            <label class="form-label">Product Name</label>
+            <input class="form-control" th:field="*{name}">
+            <div class="text-danger error-text"
+                 th:if="${#fields.hasErrors('name')}"
+                 th:errors="*{name}"></div>
+        </div>
+
+        <!-- Brand -->
+        <div class="mb-3">
+            <label class="form-label">Brand</label>
+            <input class="form-control" th:field="*{brand}">
+            <div class="text-danger error-text"
+                 th:if="${#fields.hasErrors('brand')}"
+                 th:errors="*{brand}"></div>
+        </div>
+
+        <!-- Category -->
+        <div class="mb-3">
+            <label class="form-label">Category</label>
+            <select class="form-select" th:field="*{category}">
+                <option value="">-- Select Category --</option>
+                <option value="Phones">Phones</option>
+                <option value="Computers">Computers</option>
+                <option value="Accessories">Accessories</option>
+            </select>
+            <div class="text-danger error-text"
+                 th:if="${#fields.hasErrors('category')}"
+                 th:errors="*{category}"></div>
+        </div>
+
+        <!-- Price -->
+        <div class="mb-3">
+            <label class="form-label">Price (₹)</label>
+            <input class="form-control" type="number" th:field="*{price}">
+            <div class="text-danger error-text"
+                 th:if="${#fields.hasErrors('price')}"
+                 th:errors="*{price}"></div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" rows="3" th:field="*{description}"></textarea>
+        </div>
+
+        <!-- Current Image -->
+        <div class="mb-3 text-center">
+            <label class="form-label d-block">Current Image</label>
+            <img th:src="@{'/images/' + ${product.imageFileName}}"
+                 width="150"
+                 class="product-img">
+        </div>
+
+        <!-- Upload -->
+        <div class="mb-4">
+            <label class="form-label">Upload New Image</label>
+            <input type="file" class="form-control" th:field="*{imageFile}">
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-update">💾 Update Product</button>
+            <a class="btn btn-outline-secondary btn-cancel" th:href="@{/products}">Cancel</a>
+        </div>
+
+    </form>
+
 </div>
+
 </body>
 </html>
